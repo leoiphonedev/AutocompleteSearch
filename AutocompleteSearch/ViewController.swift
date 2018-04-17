@@ -13,8 +13,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var txtSearchBar: UITextField!
     @IBOutlet weak var tblCountryList: UITableView!
     
-    var countries:[String] = Array()
-    var originalCountriesList:[String] = Array()
+    var countries: [String] = Array()
+    var originalCountriesList: [String] = Array()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,45 +35,49 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         countries.append("Saudi Arabia")
         countries.append("Yemen")
         
-        for country in countries {
-            originalCountriesList.append(country)
-        }
+        self.populateCountries()
 
         tblCountryList.delegate = self
         tblCountryList.dataSource = self
+        
         txtSearchBar.delegate = self
         txtSearchBar.addTarget(self, action: #selector(searchRecords(_ :)), for: .editingChanged)
     }
-    
+
     //MARK:- UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         txtSearchBar.resignFirstResponder()
         return true
     }
     //MARK:- searchRecords
+    fileprivate func populateCountries() {
+        for country in countries {
+            originalCountriesList.append(country)
+        }
+    }
+    
+    fileprivate func restoreCountries() {
+        for country in originalCountriesList {
+            countries.append(country)
+        }
+    }
+    
     @objc func searchRecords(_ textField: UITextField) {
         self.countries.removeAll()
-        if textField.text?.count != 0 {
-            for country in originalCountriesList {
-                if let countryToSearch = textField.text{
-                    let range = country.lowercased().range(of: countryToSearch, options: .caseInsensitive, range: nil, locale: nil)
-                    if range != nil {
-                        self.countries.append(country)
-                    }
-                }
-            }
+        let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if text.isEmpty {
+            self.restoreCountries()
         } else {
-            for country in originalCountriesList {
-                countries.append(country)
-            }
+            self.originalCountriesList.forEach({ (country) in
+                if let _ = country.lowercased().range(of: text, options: .caseInsensitive, range: nil, locale: nil) {
+                    self.countries.append(country)
+                }
+            })
         }
-        
         tblCountryList.reloadData()
     }
-
     
     //MARK:- UITableViewDataSource
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return countries.count
     }
@@ -93,11 +97,4 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         detVC.strCountyName = countries[indexPath.row]
         self.navigationController?.pushViewController(detVC, animated: true)
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
-
