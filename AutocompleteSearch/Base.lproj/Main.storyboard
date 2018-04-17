@@ -66,25 +66,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S25-KK-v8m">
-                                <rect key="frame" x="0.0" y="64" width="375" height="50"/>
+                                <rect key="frame" x="20" y="84" width="335" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="mly-ep-ufB"/>
+                                    <constraint firstAttribute="height" constant="40" id="mly-ep-ufB"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xY6-ac-MXH">
-                                <rect key="frame" x="0.0" y="134" width="375" height="533"/>
+                                <rect key="frame" x="0.0" y="144" width="375" height="523"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.97757536170000003" green="0.78956228490000002" blue="0.093355529009999993" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xY6-ac-MXH" secondAttribute="bottom" id="Jx8-dH-vBm"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="S25-KK-v8m" secondAttribute="trailing" id="LtC-5k-YlH"/>
-                            <constraint firstItem="S25-KK-v8m" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="WY0-NF-rbc"/>
-                            <constraint firstItem="S25-KK-v8m" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Y4e-rV-K8x"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="S25-KK-v8m" secondAttribute="trailing" constant="20" id="LtC-5k-YlH"/>
+                            <constraint firstItem="S25-KK-v8m" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="WY0-NF-rbc"/>
+                            <constraint firstItem="S25-KK-v8m" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="Y4e-rV-K8x"/>
                             <constraint firstItem="xY6-ac-MXH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="eB9-zm-BSV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xY6-ac-MXH" secondAttribute="trailing" id="gQF-ac-LAc"/>
                             <constraint firstItem="xY6-ac-MXH" firstAttribute="top" secondItem="S25-KK-v8m" secondAttribute="bottom" constant="20" id="lwU-3D-gvw"/>
@@ -93,6 +93,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="OBY-SM-MRG"/>
                     <connections>
+                        <outlet property="bottomLayoutForTableView" destination="Jx8-dH-vBm" id="ZXR-G1-CYe"/>
                         <outlet property="tblCountryList" destination="xY6-ac-MXH" id="doU-xu-Wvx"/>
                         <outlet property="txtSearchBar" destination="S25-KK-v8m" id="mZb-73-0Im"/>
                     </connections>
