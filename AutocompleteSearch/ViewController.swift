@@ -12,6 +12,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     @IBOutlet weak var txtSearchBar: UITextField!
     @IBOutlet weak var tblCountryList: UITableView!
+    @IBOutlet weak var bottomLayoutForTableView: NSLayoutConstraint!
     
     var countries: [String] = Array()
     var originalCountriesList: [String] = Array()
@@ -20,7 +21,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         self.title = "Auto-Complete Search"
+        
         countries.append("Australia")
         countries.append("India")
         countries.append("South Africa")
@@ -42,6 +47,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         txtSearchBar.delegate = self
         txtSearchBar.addTarget(self, action: #selector(searchRecords(_ :)), for: .editingChanged)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    //MARK: Keyboard Handling
+    @objc func keyboardWillShow(_ notification: Notification) {
+        let userInfo = (notification as NSNotification).userInfo!
+        let keyboardHeight =  (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let updatedHeight = keyboardHeight.height
+        self.bottomLayoutForTableView.constant = updatedHeight
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        self.bottomLayoutForTableView.constant = 0.0
     }
 
     //MARK:- UITextFieldDelegate

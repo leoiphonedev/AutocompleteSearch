@@ -93,6 +93,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="OBY-SM-MRG"/>
                     <connections>
+                        <outlet property="bottomLayoutForTableView" destination="Jx8-dH-vBm" id="ZXR-G1-CYe"/>
                         <outlet property="tblCountryList" destination="xY6-ac-MXH" id="doU-xu-Wvx"/>
                         <outlet property="txtSearchBar" destination="S25-KK-v8m" id="mZb-73-0Im"/>
                     </connections>
