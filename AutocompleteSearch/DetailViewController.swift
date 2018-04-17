@@ -11,28 +11,13 @@ import UIKit
 class DetailViewController: UIViewController {
 
     @IBOutlet weak var lblDetail: UILabel!
-    var strCountyName = ""
+    
+    internal var countryName = ""
+    
+    //MARK:- View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
-        lblDetail.text = strCountyName
+        self.lblDetail.text = countryName
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

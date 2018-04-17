@@ -14,39 +14,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tblCountryList: UITableView!
     @IBOutlet weak var bottomLayoutForTableView: NSLayoutConstraint!
     
-    var countries: [String] = Array()
-    var originalCountriesList: [String] = Array()
+    fileprivate var countries: [String] = Array()
+    fileprivate var originalCountriesList: [String] = Array()
     
+    //MARK:- View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
         self.title = "Auto-Complete Search"
-        
-        countries.append("Australia")
-        countries.append("India")
-        countries.append("South Africa")
-        countries.append("Ghana")
-        countries.append("China")
-        countries.append("USA")
-        countries.append("Canada")
-        countries.append("United Kingdom")
-        countries.append("Germany")
-        countries.append("Russia")
-        countries.append("New ZeaLand")
-        countries.append("Saudi Arabia")
-        countries.append("Yemen")
-        
         self.populateCountries()
-
-        tblCountryList.delegate = self
-        tblCountryList.dataSource = self
-        
-        txtSearchBar.delegate = self
-        txtSearchBar.addTarget(self, action: #selector(searchRecords(_ :)), for: .editingChanged)
+        self.commonConfig()
     }
     
     deinit {
@@ -54,7 +31,32 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    //MARK: Keyboard Handling
+    //MARK:- Config
+    fileprivate func configKeyboardHandling() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    fileprivate func commonConfig() {
+        self.configKeyboardHandling()
+        self.configTable()
+        self.configTextField()
+    }
+    
+    fileprivate func configTable() {
+        self.tblCountryList.register(UITableViewCell.self, forCellReuseIdentifier: "country")
+        self.tblCountryList.delegate = self
+        self.tblCountryList.dataSource = self
+    }
+    
+    fileprivate func configTextField() {
+        self.txtSearchBar.placeholder = "Search Country ..."
+        self.txtSearchBar.clearButtonMode = .whileEditing
+        self.txtSearchBar.delegate = self
+        self.txtSearchBar.addTarget(self, action: #selector(searchRecords(_ :)), for: .editingChanged)
+    }
+    
+    //MARK:- Keyboard Handling
     @objc func keyboardWillShow(_ notification: Notification) {
         let userInfo = (notification as NSNotification).userInfo!
         let keyboardHeight =  (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
@@ -71,16 +73,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         txtSearchBar.resignFirstResponder()
         return true
     }
+    
     //MARK:- searchRecords
     fileprivate func populateCountries() {
-        for country in countries {
-            originalCountriesList.append(country)
+        self.countries.append("Australia")
+        self.countries.append("India")
+        self.countries.append("South Africa")
+        self.countries.append("Ghana")
+        self.countries.append("China")
+        self.countries.append("USA")
+        self.countries.append("Canada")
+        self.countries.append("United Kingdom")
+        self.countries.append("Germany")
+        self.countries.append("Russia")
+        self.countries.append("New ZeaLand")
+        self.countries.append("Saudi Arabia")
+        self.countries.append("Yemen")
+        
+        for country in self.countries {
+            self.originalCountriesList.append(country)
         }
     }
     
     fileprivate func restoreCountries() {
-        for country in originalCountriesList {
-            countries.append(country)
+        for country in self.originalCountriesList {
+            self.countries.append(country)
         }
     }
     
@@ -96,27 +113,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }
             })
         }
-        tblCountryList.reloadData()
+        self.tblCountryList.reloadData()
     }
     
     //MARK:- UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countries.count
+        return self.countries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "country")
-        if cell == nil {
-            cell = UITableViewCell(style: .default, reuseIdentifier: "country")
-        }
-        cell?.textLabel?.text = countries[indexPath.row]
-        return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "country", for: indexPath)
+        cell.textLabel?.text = self.countries[indexPath.row]
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let detVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        detVC.strCountyName = countries[indexPath.row]
+        detVC.countryName = self.countries[indexPath.row]
         self.navigationController?.pushViewController(detVC, animated: true)
     }
 }
