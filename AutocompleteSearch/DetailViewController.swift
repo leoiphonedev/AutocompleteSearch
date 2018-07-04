@@ -10,13 +10,20 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    @IBOutlet weak var btnTet: UIButton!
+
     @IBOutlet weak var lblDetail: UILabel!
+    
+    @IBOutlet weak var txtView: UITextView!
+    @IBOutlet weak var txtHC: NSLayoutConstraint!
+    
     var strCountyName = ""
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         lblDetail.text = strCountyName
+        txtHC.constant = self.txtView.contentSize.height
     }
 
     override func didReceiveMemoryWarning() {
